@@ -19,12 +19,12 @@ const val CREATOR_MODE_KEY = "switchCreatorMode"
 const val CREATOR_MODE_DIALOG_DISABLE_KEY = "creator_mode_dialog_disable"
 
 class DisplaySettingsFragment :
-    PreferenceFragment(), Preference.OnPreferenceChangeListener {
+    PreferenceFragmentCompat(), Preference.OnPreferenceChangeListener {
     private lateinit var creatorModeUtils: CreatorModeUtils
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.advanced_disp_settings)
-        creatorModeUtils = CreatorModeUtils(context)
+        creatorModeUtils = CreatorModeUtils(requireContext())
 
         val creatorModePreference = findPreference<SwitchPreferenceCompat>(CREATOR_MODE_KEY)!!
         creatorModePreference.isChecked = creatorModeUtils.isEnabled
@@ -32,10 +32,11 @@ class DisplaySettingsFragment :
     }
 
     override fun onPreferenceChange(preference: Preference, newValue: Any?): Boolean {
-        val builder: AlertDialog.Builder = AlertDialog.Builder(context)
-        val checkBoxView = View.inflate(context, R.layout.cm_checkbox, null)
+        val builder: AlertDialog.Builder = AlertDialog.Builder(requireContext())
+        val checkBoxView = View.inflate(requireContext(), R.layout.cm_checkbox, null)
         val checkbox = checkBoxView.findViewById<CheckBox>(R.id.cm_checkbox_show_once) as CheckBox
         checkbox.setOnCheckedChangeListener { _, isChecked ->
+<<<<<<< HEAD
 <<<<<<< HEAD
             if (isChecked) {
                 Settings.Secure.putInt(context.contentResolver, CREATOR_MODE_DIALOG_DISABLE_KEY, 1)
@@ -49,13 +50,21 @@ class DisplaySettingsFragment :
                 if (isChecked) 1 else 0,
             )
 >>>>>>> 3d11884 (Run `pre-commit run --all`)
+=======
+            Settings.Secure.putInt(requireContext().contentResolver,
+                    CREATOR_MODE_DIALOG_DISABLE_KEY, if (isChecked) 1 else 0)
+>>>>>>> 1704b4c (XperiaParts: Move to PreferenceFragmentCompat)
         }
 
         when (preference.key) {
             CREATOR_MODE_KEY -> {
                 if (newValue as Boolean) {
 <<<<<<< HEAD
+<<<<<<< HEAD
                     if (Settings.Secure.getInt(context.contentResolver,
+=======
+                    if (Settings.Secure.getInt(requireContext().contentResolver,
+>>>>>>> 1704b4c (XperiaParts: Move to PreferenceFragmentCompat)
                                     CREATOR_MODE_DIALOG_DISABLE_KEY, 0) == 0) {
                         builder.setTitle(R.string.cm_dialog_title)
                                 .setView(checkBoxView)
@@ -68,7 +77,7 @@ class DisplaySettingsFragment :
                                     preference as SwitchPreferenceCompat
                                     preference.isChecked = !preference.isChecked
 
-                                    Settings.Secure.putInt(context.contentResolver,
+                                    Settings.Secure.putInt(requireContext().contentResolver,
                                             CREATOR_MODE_DIALOG_DISABLE_KEY, 0)
                                 }
 =======
