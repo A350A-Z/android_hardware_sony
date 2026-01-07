@@ -6,7 +6,6 @@
 package org.lineageos.settings.device.display
 
 import android.app.AlertDialog
-import android.content.Context
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
@@ -19,7 +18,8 @@ const val CREATOR_MODE_KEY = "switchCreatorMode"
 
 const val CREATOR_MODE_DIALOG_DISABLE_KEY = "creator_mode_dialog_disable"
 
-class DisplaySettingsFragment : PreferenceFragment(), Preference.OnPreferenceChangeListener {
+class DisplaySettingsFragment :
+    PreferenceFragment(), Preference.OnPreferenceChangeListener {
     private lateinit var creatorModeUtils: CreatorModeUtils
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -36,16 +36,25 @@ class DisplaySettingsFragment : PreferenceFragment(), Preference.OnPreferenceCha
         val checkBoxView = View.inflate(context, R.layout.cm_checkbox, null)
         val checkbox = checkBoxView.findViewById<CheckBox>(R.id.cm_checkbox_show_once) as CheckBox
         checkbox.setOnCheckedChangeListener { _, isChecked ->
+<<<<<<< HEAD
             if (isChecked) {
                 Settings.Secure.putInt(context.contentResolver, CREATOR_MODE_DIALOG_DISABLE_KEY, 1)
             } else {
                 Settings.Secure.putInt(context.contentResolver, CREATOR_MODE_DIALOG_DISABLE_KEY, 0)
             }
+=======
+            Settings.Secure.putInt(
+                requireContext().contentResolver,
+                CREATOR_MODE_DIALOG_DISABLE_KEY,
+                if (isChecked) 1 else 0,
+            )
+>>>>>>> 3d11884 (Run `pre-commit run --all`)
         }
 
         when (preference.key) {
             CREATOR_MODE_KEY -> {
                 if (newValue as Boolean) {
+<<<<<<< HEAD
                     if (Settings.Secure.getInt(context.contentResolver,
                                     CREATOR_MODE_DIALOG_DISABLE_KEY, 0) == 0) {
                         builder.setTitle(R.string.cm_dialog_title)
@@ -62,6 +71,33 @@ class DisplaySettingsFragment : PreferenceFragment(), Preference.OnPreferenceCha
                                     Settings.Secure.putInt(context.contentResolver,
                                             CREATOR_MODE_DIALOG_DISABLE_KEY, 0)
                                 }
+=======
+                    if (
+                        Settings.Secure.getInt(
+                            requireContext().contentResolver,
+                            CREATOR_MODE_DIALOG_DISABLE_KEY,
+                            0,
+                        ) == 0
+                    ) {
+                        builder
+                            .setTitle(R.string.cm_dialog_title)
+                            .setView(checkBoxView)
+                            .setCancelable(false)
+                            .setMessage(R.string.cm_dialog_message)
+                            .setPositiveButton(android.R.string.ok) { _, _ ->
+                                creatorModeUtils.setMode(true)
+                            }
+                            .setNegativeButton(android.R.string.cancel) { _, _ ->
+                                preference as SwitchPreferenceCompat
+                                preference.isChecked = !preference.isChecked
+
+                                Settings.Secure.putInt(
+                                    requireContext().contentResolver,
+                                    CREATOR_MODE_DIALOG_DISABLE_KEY,
+                                    0,
+                                )
+                            }
+>>>>>>> 3d11884 (Run `pre-commit run --all`)
                         builder.show()
                     } else {
                         creatorModeUtils.setMode(true)
