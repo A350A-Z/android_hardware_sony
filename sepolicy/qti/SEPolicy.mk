@@ -6,6 +6,8 @@
 
 SEPOLICY_PLATFORM := $(subst device/qcom/sepolicy_vndr/,,$(SEPOLICY_PATH))
 
+-include device/lineage/sepolicy/qcom/sepolicy.mk
+
 BOARD_VENDOR_SEPOLICY_DIRS += \
     hardware/sony/sepolicy/qti/vendor \
     hardware/sony/sepolicy/qti/vendor/$(SEPOLICY_PLATFORM)
