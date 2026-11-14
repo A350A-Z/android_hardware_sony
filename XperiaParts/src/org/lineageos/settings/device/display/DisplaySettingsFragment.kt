@@ -11,6 +11,7 @@ import android.provider.Settings
 import android.view.View
 import android.widget.CheckBox
 import androidx.preference.Preference
+import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
 import org.lineageos.settings.device.R
 
